@@ -19,5 +19,7 @@ const [pokemon, setPokemon] = useState();
                 name: poke.name,
                 img: poke.sprites.other.dr
 }
-
+  } 
+    };
+    
 export default App;
