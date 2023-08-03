@@ -1,25 +1,34 @@
-import Pokemon from "./components/Pokemon";
-import Pcards from "./components/Pcards";
-import { useEffect, useState } from "react";
+import './App.css';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import PokemonCard from './components/PokemonCard';
+import { useEffect,useState } from 'react';
 
+const pokemonAPI =
+  'https://pokeapi.co/api/v2/pokemon?limit=151';
 
 function App() {
-const [pokemon, setPokemon] = useState(); 
+  const [pokemon, setPokemon] = useState([]);
 
-        const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
-        const listaPokemones = await response.json() 
-        const {results} = listaPokemones
+  useEffect(() => {
+      fetch(pokemonAPI)
+      .then(response => response.json())
+      .then(data => {
+          setPokemon(data.results);
+      })
+  }, []);
 
-        const pokemone = results.map( async (pokemon) =>  {
-            const response = await fetch(pokemon.url)
-            const poke = await response.json()
-
-            return {
-                id: poke.id,
-                name: poke.name,
-                img: poke.sprites.other.dr
+  return (
+    <div className="App">
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={2}>
+        {pokemon.map((p,i) =>
+        <PokemonCard name={p.name} id={i+1}/>
+            )}
+        </Grid>
+      </Box>
+    </div>
+  );
 }
-  } 
-    };
-    
+
 export default App;
